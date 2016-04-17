@@ -1,14 +1,14 @@
-var Todo = require('./models/todo');
+var Food = require('./models/food');
 
-function getTodos(res) {
-    Todo.find(function (err, todos) {
+function getFoods(res) {
+    Food.find(function (err, foods) {
 
         // if there is an error retrieving, send the error. nothing after res.send(err) will execute
         if (err) {
             res.send(err);
         }
 
-        res.json(todos); // return all todos in JSON format
+        res.json(foods); // return all todos in JSON format
     });
 }
 ;
@@ -17,37 +17,58 @@ module.exports = function (app) {
 
     // api ---------------------------------------------------------------------
     // get all todos
-    app.get('/api/todos', function (req, res) {
+    app.get('/api/foods', function (req, res) {
         // use mongoose to get all todos in the database
-        getTodos(res);
+        getFoods(res);
     });
 
     // create todo and send back all todos after creation
-    app.post('/api/todos', function (req, res) {
+    app.post('/api/foods', function (req, res) {
 
         // create a todo, information comes from AJAX request from Angular
-        Todo.create({
+        Food.create({
             text: req.body.text,
+            name: req.body.name,
+            price: req.body.price,
             done: false
-        }, function (err, todo) {
+        }, function (err, food) {
             if (err)
                 res.send(err);
 
             // get and return all the todos after you create another
-            getTodos(res);
+            getFoods(res);
         });
 
     });
 
     // delete a todo
-    app.delete('/api/todos/:todo_id', function (req, res) {
-        Todo.remove({
-            _id: req.params.todo_id
-        }, function (err, todo) {
+    app.delete('/api/foods/:food_id', function (req, res) {
+        Food.remove({
+            _id: req.params.food_id
+        }, function (err, food) {
             if (err)
                 res.send(err);
 
-            getTodos(res);
+            getFoods(res);
+        });
+    });
+
+    //total price
+
+    app.get('/api/total', function(req, res){
+
+         Food.find(function (err, foods) {
+
+            // if there is an error retrieving, send the error. nothing after res.send(err) will execute
+            if (err) {
+                res.send(err);
+            }
+            var total = 0;
+            for(var i in foods){
+                total += foods[i].price;
+            }
+            total = total * 107.5/100;
+            res.json({'total':total}); // return all todos in JSON format
         });
     });
 

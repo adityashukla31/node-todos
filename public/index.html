@@ -33,19 +33,19 @@
 
 		<!-- HEADER AND TODO COUNT -->
 		<div class="jumbotron text-center">
-			<h1>I'm a Todo-aholic <span class="label label-info">{{ todos.length }}</span></h1>
+			<h1>This is Emiril's Food Service <span class="label label-info">{{ foods.length }}</span></h1>
 		</div>
 
 		<!-- TODO LIST -->
 		<div id="todo-list" class="row">
-			<div class="col-sm-4 col-sm-offset-4">
+			<div class="col-sm-4 col-sm-offset-5">
 
 				
 
 				<!-- LOOP OVER THE TODOS IN $scope.todos -->
-				<div class="checkbox" ng-repeat="todo in todos">
+				<div class="checkbox" ng-repeat="food in foods">
 					<label>
-						<input type="checkbox" ng-click="deleteTodo(todo._id)"> {{ todo.text }}
+						<input type="checkbox" ng-click="deleteFood(food._id)"> {{ food.name }}
 					</label>
 				</div>
 
@@ -54,22 +54,45 @@
 				</p>
 
 			</div>
+			<div class="col-sm-3">
+				<div class="panel panel-default">
+					<div class="panel-heading">Total Order Price</div>
+					<div class="panel-body">
+					<form >
+					<div >
+						<input type="text" disabled=true style="float:left" ng-model="totalData.total">
+					</div>
+					<div >
+					<button type="submit" class="btn btn-primary" ng-click="getTotal()" style="float:left ;margin:6px 0px" type="button">Get Total</button>
+					</div>
+					</form>
+					</div>
+				</div>
+			</div>
 		</div>
 
 		<!-- FORM TO CREATE TODOS -->
 		<div id="todo-form" class="row">
 			<div class="col-sm-8 col-sm-offset-2 text-center">
-				<form>
+				<form class="form-inline">
 					<div class="form-group">
 
-						<!-- BIND THIS VALUE TO formData.text IN ANGULAR -->
-						<input type="text" class="form-control input-lg text-center" placeholder="I want to buy a puppy that will love me forever" ng-model="formData.text">
+						<!-- BIND THIS VALUE TO formData.name & formData.price IN ANGULAR -->
+						<input type="text" class="form-control input-lg text-center" placeholder="Enter The Food Item Name" ng-model="formData.name" >
+					</div>
+					<div class="form-group">
+						<input type="text" class="form-control input-lg text-center" placeholder="Enter The Food Item Price" ng-model="formData.price">
 					</div>
 
-					<!-- createToDo() WILL CREATE NEW TODOS -->
-					<button type="submit" class="btn btn-primary btn-lg" ng-click="createTodo()">Add</button>
+					<!-- createFood() WILL CREATE NEW Food Items -->
+					
 				</form>
+				<div class="form-group">
+				<button type="submit" class="btn btn-primary btn-lg" ng-click="createFood()" style="margin:6px">Add</button>
+				</div>
 			</div>
+
+			
 		</div>
 
 		<div class="text-center text-muted">
